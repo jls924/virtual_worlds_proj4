@@ -10,7 +10,7 @@ var stage = new PIXI.Container();
 
 //Music
 var music_vol = 1;
-const theme_1 = PIXI.sound.Sound.from('audio/overseer.mp3');
+const theme_1 = PIXI.sound.Sound.from('audio/coffeeOnTheWindowSill.mp3');
 theme_1.loop = true;
 theme_1.play();
 
