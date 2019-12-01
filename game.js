@@ -1,6 +1,6 @@
 var gameport = document.getElementById("gameport");
 
-var renderer = PIXI.autoDetectRenderer({width: 1280, height: 720, backgroundColor: 0x3344ee});
+var renderer = PIXI.autoDetectRenderer({width: 1280, height: 720, backgroundColor: 0x000000});
 gameport.appendChild(renderer.view);
 
 var main = new PIXI.Container();
@@ -151,8 +151,6 @@ play.mousedown = function(ev)
 {
 	main.removeChild(menu);
 	main.addChild(stage);
-	main.removeChild(player);
-	stage.addChild(player);
 }
 
 options.hitArea = new PIXI.Rectangle(0, 0, 220, 64);
@@ -312,6 +310,72 @@ cred_back.mousedown = function(ev)
 	menu_bkd.removeChild(menu3);
 	menu_bkd.addChild(menu1);
 }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * TEXT ELEMENTS                                             *
+ * This is the portion where the main text area and story is *
+ * initialized, including all interactions                   *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+var story = 
+[
+	"Whenever I see TV shows or movies, love is always the end goal or reward. Main dude has a love interest, she gets stolen by bad person, main guy fights the bad person, love interest conflates fear with love and they live happily ever after.",
+	"This is just a story though, mere curiosities of the mind- much more simple than real situations we encounter. Even after starting to date, there's still feelings to be considered, pasts to learn about, gifts to give... and riddles to be solved.",
+	"My name is Hera Contrara, and this is the story of the woman I fell in love with.",
+	"END"
+];
+var storyCount = 1;
+var t_text_back = PIXI.Texture.from("images/dialogue_back.png");
+var text_back = new PIXI.Sprite(t_text_back);
+stage.addChild(text_back);
+
+const main_style = new PIXI.TextStyle({
+    fill: "white",
+    fontFamily: "Courier New",
+    fontSize: 24,
+    wordWrap: true,
+    wordWrapWidth: 1240
+});
+const main_text = new PIXI.Text(story[0], main_style);
+main_text.x = 20;
+main_text.y = 400;
+stage.addChild(main_text);
+
+const name_style = new PIXI.TextStyle({
+    fill: "white",
+    fontFamily: "Courier New",
+    fontSize: 40,
+});
+const name = new PIXI.Text('Hera', name_style);
+name.x = 1040;
+name.y = 295;
+stage.addChild(name);
+
+var cont_neutral = PIXI.Texture.from("images/continue_neutral.png");
+var cont_active = PIXI.Texture.from("images/continue_active.png");
+var cont_btn = new PIXI.Sprite(cont_neutral);
+cont_btn.position.x = 1000;
+cont_btn.position.y = 640;
+cont_btn.interactive = true;
+stage.addChild(cont_btn);
+cont_btn.hitArea = new PIXI.Rectangle(0, 0, 250, 60);
+cont_btn.mouseover = function(ev)
+{
+	cont_btn.texture = cont_active;
+}
+cont_btn.mouseout = function(ev)
+{
+	cont_btn.texture = cont_neutral;
+}
+cont_btn.mousedown = function(ev)
+{
+	if (storyCount < story.length)
+	{
+		main_text.text = story[storyCount];
+		storyCount++;
+	}
+}
+
 function animate() 
 {
 	requestAnimationFrame(animate);
@@ -319,3 +383,6 @@ function animate()
 	renderer.render(main);
 }
 animate();
+
+//For each sentence, there has to be a switch in the main text AND with the name
+//The size may need to adjust for the barista name
