@@ -329,7 +329,6 @@ var logic =
 	"o0",
 	"o0",
 	"o0",
-	"o0",
 	"01", //5
 	"o1",
 	"b1",
@@ -345,7 +344,7 @@ var logic =
 	"b1",
 	"o1",
 	"o1",
-	"02", //20
+	"04", //20
 	"h1",
 	"v1",
 	"h1",
@@ -391,16 +390,18 @@ var logic =
 	"o1",
 	"h1",
 	"05",
-	"o4",
-	"",
-	"",
-	"",
-	"", //70
-	"",
-	"",
-	"",
-	"",
+	"o1",
+	"v1",
+	"h1",
+	"h1",
+	"v1", //70
+	"h1",
+	"v1",
+	"01",
+	"o1",
+	"00"
 ];
+var logicCount = 1;
 
 
 //Story and setup
@@ -409,9 +410,9 @@ var story =
 	"Whenever I see TV shows or movies, love is always the end goal or reward. Main dude has a love interest, she gets stolen by bad person, main guy fights the bad person, love interest conflates fear with love and they live happily ever after.",
 	"This is just a story though, mere curiosities of the mind- much more simple than real situations we encounter. Even after starting to date, there's still feelings to be considered, pasts to learn about, gifts to give... and riddles to be solved.",
 	"My name is Hera Contrara, and this is the story of the woman I fell in love with.",
-	"... ..." //5
+	"... ...", //5
 	"It all started with my morning coffee. I was about to head in, and she, Vera, ordered her drink. She seemed to come a few minutes earlier than me.",
-	"Hello! What can I do to get you started?"
+	"Hello! What can I do to get you started?",
 	"Hi, so what exactly is this place? There was no name or sign for this shop out front.",
 	"Hell if I know. We have coffee and tea, if that's what you're asking.",
 	"...Right. I guess I'll order one of those then?", //10
@@ -423,7 +424,7 @@ var story =
 	"Ouch...",
 	"Ouch indeed. Anyways, the total is $3.36.",
 	"Once she paid for the tea, she went over to the other side of the counter to wait. Eventually, she heard her name called.",
-	"At the same time as getting her tea and going to find a seat though, I walked through the door. All of a sudden..."
+	"At the same time as getting her tea and going to find a seat though, I walked through the door. All of a sudden...",
 	"*SPLOOSH*", //20
 	"...Shit.",
 	"Oh no no no no, I am so sorry!",
@@ -504,8 +505,8 @@ const name_style = new PIXI.TextStyle({
     fontFamily: "Courier New",
     fontSize: 40,
 });
-const name = new PIXI.Text('Hera', name_style);
-name.x = 1040;
+const name = new PIXI.Text('Hera (V.O)', name_style);
+name.x = 1030;
 name.y = 295;
 stage.addChild(name);
 
@@ -557,6 +558,40 @@ cont_btn.mousedown = function(ev)
 	{
 		main_text.text = story[storyCount];
 		storyCount++;
+	}
+	if (logicCount < logic.length)
+	{
+		parseLogic(logic[logicCount]);
+		logicCount++;
+	}
+}
+
+function parseLogic(logicStr)
+{
+	if (logicStr.charAt(0) == 'h')
+	{
+		name.text = "Hera";
+	}
+	else if (logicStr.charAt(0) =='o')
+	{
+		name.text = "Hera (V.O)";
+	}
+	else if (logicStr.charAt(0) == 'v')
+	{
+		name.text = "Vera";
+	}
+	else if (logicStr.charAt(0) == 'b')
+	{
+		name.text = "Barista";
+	}
+	else if (logicStr.charAt(0) == '0')
+	{
+		name.text = "";
+	}
+
+	if (logicStr.charAt(1) == '0')
+	{
+		//TODO
 	}
 }
 
