@@ -317,11 +317,164 @@ cred_back.mousedown = function(ev)
  * initialized, including all interactions                   *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+//Story logic - first is who is talking (h = Hera, v = Vera, b = Barista, o = Hera (V.O.), and 0 is nothing), and second is what music/sound is playing
+//0 = silence, 1 = "Autumn Leaves" lofi, 2 = pedantic, 3 = dogsong, 4 = water splash, 5 = table slam
+//0 is blackness, 1 is empty coffee shop, 2 is with Hera and Vera
+var logic = 
+[
+	"o0",
+	"o0",
+	"o0",
+	"o0",
+	"01", //5
+	"o1",
+	"b1",
+	"v1",
+	"b1",
+	"v1", //10
+	"b1",
+	"v1",
+	"b1",
+	"v1",
+	"b1", //15
+	"v1",
+	"b1",
+	"o1",
+	"o1",
+	"02", //20
+	"h1",
+	"v1",
+	"h1",
+	"h1",
+	"o1", //25
+	"v1",
+	"o1",
+	"v1",
+	"h1",
+	"v1", //30
+	"h1",
+	"o1",
+	"v1",
+	"h1",
+	"v1", //35
+	"h1",
+	"o1",
+	"v1",
+	"h1",
+	"v1", //40
+	"h1",
+	"o1",
+	"h1",
+	"v1",
+	"h1",
+	"v1",
+	"h1",
+	"o1",
+	"h1",
+	"v1", //50
+	"h1",
+	"v1",
+	"h1",
+	"v1",
+	"h1",
+	"v1",
+	"h1",
+	"v1",
+	"v1",
+	"h1", //60
+	"v1",
+	"h1",
+	"o1",
+	"h1",
+	"05",
+	"o4",
+	"",
+	"",
+	"",
+	"", //70
+	"",
+	"",
+	"",
+	"",
+];
+
+
+//Story and setup
 var story = 
 [
 	"Whenever I see TV shows or movies, love is always the end goal or reward. Main dude has a love interest, she gets stolen by bad person, main guy fights the bad person, love interest conflates fear with love and they live happily ever after.",
 	"This is just a story though, mere curiosities of the mind- much more simple than real situations we encounter. Even after starting to date, there's still feelings to be considered, pasts to learn about, gifts to give... and riddles to be solved.",
 	"My name is Hera Contrara, and this is the story of the woman I fell in love with.",
+	"... ..." //5
+	"It all started with my morning coffee. I was about to head in, and she, Vera, ordered her drink. She seemed to come a few minutes earlier than me.",
+	"Hello! What can I do to get you started?"
+	"Hi, so what exactly is this place? There was no name or sign for this shop out front.",
+	"Hell if I know. We have coffee and tea, if that's what you're asking.",
+	"...Right. I guess I'll order one of those then?", //10
+	"That's the spirit! So what are you feeling like?",
+	"I think I'll get a loose leaf tea.",
+	"Finally someone gets tea! Sometimes coffee can just suck, especially with how complicated the orders can be.",
+	"But didn't you choose to work here?",
+	"Hey, you gotta pay that student debt somehow.", //15
+	"Ouch...",
+	"Ouch indeed. Anyways, the total is $3.36.",
+	"Once she paid for the tea, she went over to the other side of the counter to wait. Eventually, she heard her name called.",
+	"At the same time as getting her tea and going to find a seat though, I walked through the door. All of a sudden..."
+	"*SPLOOSH*", //20
+	"...Shit.",
+	"Oh no no no no, I am so sorry!",
+	"Jesus! I'm surprised you didn't see...",
+	"...me coming...",
+	"I was going to start to complain, but this was different. For once in my life, I stopped thinking.", //25
+	"You're right you're right, just come with me for a second. I am so incredibly sorry!",
+	"She got me some napkins to wipe myself off, and tried to help wiping off some of the tea herself.",
+	"Are you doing okay?",
+	"...I'm doing okay, thanks though.",
+	"Are you sure?", //30
+	"This jacket is pretty hot as is, so I think you actually cooled me down with that tea.",
+	"She let out a little giggle, and it was way too cute hnnnggg",
+	"Oh thank God, I thought I hurt you. Well, have you gotten anything to drink yet? I can get you something to drink to make up for it.",
+	"You don't need to do that-",
+	"I insist! It's the least I can do for staining your jacket.", //35
+	"...You're too kind, thank you.",
+	"She came with me and ordered a drink for me and another for herself. I was still slightly in awe of her, and ended up blushing a little.",
+	"You okay still?",
+	"Oh, yeah. Just hot in this jacket...",
+	"*giggle* I see. Well, would you be interested in sitting down with me? You'll be able to take off your jacket for a bit.", //40
+	"I don't see why not.",
+	"We get our drinks, make sure not to bump into each other again, and start to walk over to an empty table.",
+	"So what's your name, by the way?",
+	"It's Vera! How about you?",
+	"...Hera.",
+	"Oh? Do our names really rhyme?",
+	"Oddly enough, this isn't the first time that's happened.",
+	"We go to sit down right next to the window. The city outside continues to tick as people walk by, cars find their way to their destination, and the windows glimmer with a certain brilliance. I figured I should know more about this stranger who bought me coffee, so I started up a conversation.",
+	"So... what do you do for work, Vera?",
+	"I'm an archaeologist. How about you?", //50
+	"Wait, hold up. You said you're an archaeologist?",
+	"Yeah, why?",
+	"That's just really cool, I've never met an archeologist. So you dig up old bones and analyze them?",
+	"That's one line of work, but I specialize more in digging up old buildings. It's pretty interesting getting an inside look at ancient histories.",
+	"No kidding... you have to be making good money from that, given some of those discoveries end up in textbooks.",
+	"Unfortunately, I'm only one of the junior archaeologiests, so I'm not making much money right now- I mostly do it out of passion for the career right now.",
+	"So you say your finances are... in ruins?",
+	"...",
+	"Mk- hahahahahaaa!",
+	"Glad you liked that one. I was afraid that almost didn't land.", //60
+	"Being honest here, I do enjoy me a good pun!",
+	"Thank god.",
+	"I look out the window again, and a silence starts. Hera decides to break the silence.",
+	"Soooo, I've got a bit of a puzzle for you that goes around in the ol' archeologist circles.",
+	"*SLAM*",
+	"I immediately go from looking out the window to intently focused on her. My heart started to race with adrenalline.",
+	"Umm... did I say something?",
+	"...",
+	"God damn it, sorry to scare you. I just really enjoy puzzles, I guess.",
+	"I'd say it's less of a puzzle and more of a riddle, now that I think about it.", //70
+	"That's okay.",
+	"Okay! Well here's the riddle: I have cities, but no houses. I have forests, but no trees. I have water but no fish. What am I?",
+	"...",
+	"Hey! You there reading this! Try to solve the puzzle.",
 	"END"
 ];
 var storyCount = 1;
@@ -329,6 +482,7 @@ var t_text_back = PIXI.Texture.from("images/dialogue_back.png");
 var text_back = new PIXI.Sprite(t_text_back);
 stage.addChild(text_back);
 
+//Setting up text boxes
 const main_style = new PIXI.TextStyle({
     fill: "white",
     fontFamily: "Courier New",
@@ -350,6 +504,32 @@ const name = new PIXI.Text('Hera', name_style);
 name.x = 1040;
 name.y = 295;
 stage.addChild(name);
+
+/*
+//Choice buttons
+var choice_neutral = PIXI.Texture.from("images/choice_neutral.png");
+var choice_active = PIXI.Texture.from("images/choice_active.png");
+
+var choice1 = new PIXI.Sprite(choice_neutral);
+choice1.x = 50;
+choice1.y = 400;
+stage.addChild(choice1);
+
+var choice2 = new PIXI.Sprite(choice_neutral);
+choice2.x = 550;
+choice2.y = 400;
+stage.addChild(choice2);
+
+var choice3 = new PIXI.Sprite(choice_neutral);
+choice3.x = 50;
+choice3.y = 500;
+stage.addChild(choice3);
+
+var choice4 = new PIXI.Sprite(choice_neutral);
+choice4.x = 450;
+choice4.y = 500;
+stage.addChild(choice4);
+*/
 
 var cont_neutral = PIXI.Texture.from("images/continue_neutral.png");
 var cont_active = PIXI.Texture.from("images/continue_active.png");
