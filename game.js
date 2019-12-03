@@ -8,9 +8,26 @@ var menu = new PIXI.Container();
 var stage = new PIXI.Container();
 
 //Background
-var t_background = PIXI.Texture.from("images/coffeeshopNOPPL.png");
-var background = new PIXI.Sprite(t_background);
-main.addChild(background);
+//var t_background = PIXI.Texture.from("images/coffeeshopNOPPL.png");
+//var background = new PIXI.Sprite(t_background);
+//main.addChild(background);
+
+
+let noPplBackground = ["images/coffeeshopNOPPL1.png", "images/coffeeshopNOPPL2.png", "images/coffeeshopNOPPL3.png"];
+
+let textureArray = [];
+
+for (var i=0; i<3; i++) {
+	let texture = PIXI.Texture.fromImage(noPplBackground[i]);
+	textureArray.push(texture);
+};
+
+let radio = new PIXI.AnimatedSprite(textureArray);
+radio.loop = true;
+radio.animationSpeed = .09;
+radio.play();
+main.addChild(radio);
+
 
 //Music
 var music_vol = 1;
