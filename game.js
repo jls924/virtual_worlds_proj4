@@ -446,10 +446,10 @@ var logic =
 	"000",
 	"h00",
 	"h30",
-	"h30",
-	"h30",
-	"h30",
-	"030"  //108
+	"h60",
+	"h60",
+	"h60",
+	"060"  //108
 ];
 var logicCount = 1;
 
@@ -562,7 +562,7 @@ var story =
 	"Welp, I would go on, but it seems to be the end of the road for this story.",
 	"This would be the point when you (yes you!) get launched into a flurry of questions meant to engage your sense of wit and cunning in a way that you never have imagined before!",
 	"Unfortunately, the fool who programmed this game forgot what time management is, so never got around to it! The audacity.",
-	"Anywho, if you're interested in the rest of my cunning tales, the story draft will be in the code! Not to spoil or brag or anything, but we totally lived happily ever after and U-Hauled into the sunset.",
+	"Anywho, if you're interested in the rest of my cunning tales, the story draft will be in the contents of this webpage! (Eventually...) Not to spoil or brag or anything, but we totally lived happily ever after and U-Hauled into the sunset.",
 	"Bye bye!",
 	"END" //108
 ];
@@ -725,8 +725,9 @@ function parseLogic(logicStr)
 		stage.removeChild(cont_btn);
 
 		stage.addChild(coffeeshop);
-		stage.addChild(main_text);
+		main_text.style = main_style;
 		stage.addChild(text_back);
+		stage.addChild(main_text);
 		stage.addChild(name);
 		stage.addChild(cont_btn);
 	}
@@ -738,8 +739,9 @@ function parseLogic(logicStr)
 		stage.removeChild(cont_btn);
 
 		stage.addChild(hv_coffeeshop);
-		stage.addChild(main_text);
+		main_text.style = main_style;
 		stage.addChild(text_back);
+		stage.addChild(main_text);
 		stage.addChild(name);
 		stage.addChild(cont_btn);
 	}
