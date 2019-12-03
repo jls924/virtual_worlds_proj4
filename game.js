@@ -7,10 +7,9 @@ var main = new PIXI.Container();
 var menu = new PIXI.Container();
 var stage = new PIXI.Container();
 
-//Background
-//var t_background = PIXI.Texture.from("images/coffeeshopNOPPL.png");
-//var background = new PIXI.Sprite(t_background);
-//main.addChild(background);
+var t_hv_coffeeshop = PIXI.Texture.from("images/coffeeshop.png");
+var hv_coffeeshop = new PIXI.Sprite(t_hv_coffeeshop);
+menu.addChild(hv_coffeeshop);
 
 
 let noPplBackground = ["images/coffeeshopNOPPL1.png", "images/coffeeshopNOPPL2.png", "images/coffeeshopNOPPL3.png"];
@@ -34,13 +33,15 @@ var music_vol = 1;
 const theme_1 = PIXI.sound.Sound.from('audio/coffeeOnTheWindowSill.mp3');
 theme_1.loop = true;
 theme_1.play();
+const theme_2 = PIXI.sound.Sound.from('audio/pedantic.mp3');
+theme_2.loop = true;
+const theme_3 = PIXI.sound.Sound.from('audio/dogsong.mp3');
+theme_3.loop = true;
 
 //Sounds
 const bloop = PIXI.sound.Sound.from('audio/bloop.mp3');
-const a_shoot = PIXI.sound.Sound.from('audio/shoot.mp3');
-const a_game_over = PIXI.sound.Sound.from('audio/fail.mp3');
-const a_hurt = PIXI.sound.Sound.from('audio/hurt.mp3');
-const a_big_shot = PIXI.sound.Sound.from('audio/big_shot.mp3');
+const spill = PIXI.sound.Sound.from('audio/spill.mp3');
+const bang = PIXI.sound.Sound.from('audio/desk_bang.mp3');
 var sound_vol = 1;
 
 /* * * * * * * * * * * * * * * * * * * * *
@@ -172,6 +173,7 @@ play.mousedown = function(ev)
 {
 	main.removeChild(menu);
 	main.addChild(stage);
+	theme_1.pause();
 }
 
 options.hitArea = new PIXI.Rectangle(0, 0, 220, 64);
@@ -264,11 +266,9 @@ quiet2.mousedown = function(ev)
 	{
 		sound_vol -= 0.125;
 		bloop.volume = sound_vol;
+		spill.volume = sound_vol;
+		bang.volume = sound_vol;
 		bloop.play();
-		a_shoot.volume = sound_vol;
-		a_game_over.volume = sound_vol;
-		a_hurt.volume = sound_vol;
-		a_big_shot.volume = sound_vol;
 		vol_count2 -= 1;
 		volume2.texture = t_volume[vol_count2];
 	}
@@ -291,10 +291,8 @@ loud2.mousedown = function(ev)
 		sound_vol += 0.125;
 		bloop.volume = sound_vol;
 		bloop.play();
-		a_shoot.volume = sound_vol;
-		a_game_over.volume = sound_vol;
-		a_hurt.volume = sound_vol;
-		a_big_shot.volume = sound_vol;
+		spill.volume = sound_vol;
+		bang.volume = sound_vol;
 		vol_count2 += 1;
 		volume2.texture = t_volume[vol_count2];
 	}
@@ -339,84 +337,118 @@ cred_back.mousedown = function(ev)
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 //Story logic - first is who is talking (h = Hera, v = Vera, b = Barista, o = Hera (V.O.), and 0 is nothing), and second is what music/sound is playing
-//0 = silence, 1 = "Autumn Leaves" lofi, 2 = pedantic, 3 = dogsong, 4 = water splash, 5 = table slam
+//0 = silence, 1 = "Windowsill" lofi, 2 = pedantic, 3 = dogsong, 4 = water splash, 5 = table slam
 //0 is blackness, 1 is empty coffee shop, 2 is with Hera and Vera
 var logic = 
 [
-	"o0",
-	"o0",
-	"o0",
-	"01", //5
-	"o1",
-	"b1",
-	"v1",
-	"b1",
-	"v1", //10
-	"b1",
-	"v1",
-	"b1",
-	"v1",
-	"b1", //15
-	"v1",
-	"b1",
-	"o1",
-	"o1",
-	"04", //20
-	"h1",
-	"v1",
-	"h1",
-	"h1",
-	"o1", //25
-	"v1",
-	"o1",
-	"v1",
-	"h1",
-	"v1", //30
-	"h1",
-	"o1",
-	"v1",
-	"h1",
-	"v1", //35
-	"h1",
-	"o1",
-	"v1",
-	"h1",
-	"v1", //40
-	"h1",
-	"o1",
-	"h1",
-	"v1",
-	"h1",
-	"v1",
-	"h1",
-	"o1",
-	"h1",
-	"v1", //50
-	"h1",
-	"v1",
-	"h1",
-	"v1",
-	"h1",
-	"v1",
-	"h1",
-	"v1",
-	"v1",
-	"h1", //60
-	"v1",
-	"h1",
-	"o1",
-	"h1",
-	"05",
-	"o1",
-	"v1",
-	"h1",
-	"h1",
-	"v1", //70
-	"h1",
-	"v1",
-	"01",
-	"o1",
-	"00"
+	"o00",
+	"o00",
+	"o00",
+	"011", //5
+	"o61",
+	"b61",
+	"v61",
+	"b61",
+	"v61", //10
+	"b61",
+	"v61",
+	"b61",
+	"v61",
+	"b61", //15
+	"v61",
+	"b61",
+	"o61",
+	"o61",
+	"041", //20
+	"h11",
+	"v61",
+	"h61",
+	"h61",
+	"o61", //25
+	"v61",
+	"o61",
+	"v61",
+	"h61",
+	"v61", //30
+	"h61",
+	"o61",
+	"v61",
+	"h61",
+	"v61", //35
+	"h61",
+	"o61",
+	"v61",
+	"h61",
+	"v61", //40
+	"h61",
+	"o61",
+	"h61",
+	"060",
+	"v62",
+	"h62",
+	"v62",
+	"h62",
+	"o62",
+	"h62",
+	"v62", //50
+	"h62",
+	"v62",
+	"h62",
+	"v62",
+	"h62",
+	"v62",
+	"h62",
+	"v62",
+	"v62",
+	"h62", //60
+	"v62",
+	"h62",
+	"o62",
+	"h62",
+	"052",
+	"o12",
+	"v62",
+	"h62",
+	"h62",
+	"v62", //70
+	"h62",
+	"v22",
+	"h62",
+	"h62",
+	"v62",
+	"o62",
+	"v62",
+	"o62",
+	"h62",
+	"v62", //80
+	"h62",
+	"v62",
+	"h12",
+	"v62",
+	"h62",
+	"v62",
+	"v62",
+	"h62",
+	"o62",
+	"o62", //90
+	"v62",
+	"h62",
+	"v62",
+	"h62",
+	"v62",
+	"h62",
+	"v62",
+	"o62",
+	"h62",
+	"000", //100
+	"000",
+	"000",
+	"h00",
+	"h30",
+	"h30",
+	"h30",
+	"h30",
+	"030"  //108
 ];
 var logicCount = 1;
 
@@ -465,6 +497,7 @@ var story =
 	"*giggle* I see. Well, would you be interested in sitting down with me? You'll be able to take off your jacket for a bit.", //40
 	"I don't see why not.",
 	"We get our drinks, make sure not to bump into each other again, and start to walk over to an empty table.",
+	"... ...",
 	"So what's your name, by the way?",
 	"It's Vera! How about you?",
 	"...Hera.",
@@ -496,8 +529,41 @@ var story =
 	"That's okay.",
 	"Okay! Well here's the riddle: I have cities, but no houses. I have forests, but no trees. I have water but no fish. What am I?",
 	"...",
-	"Hey! You there reading this! Try to solve the puzzle.",
-	"END"
+	"...no idea.",
+	"Well, the answer is a map!",
+	"It turns out that not getting the answer for riddles hits me very hard. I look defeated and look out the window again.",
+	"Oh... are you okay?",
+	"Oh yeah, I almost forgot about the tears!",
+	"I didn't get it right...",
+	"Hey hey, it's alright you didn't get it right! *shrugs* Nobody is supposed to get them right anyways, they're just fun!", //80
+	"Fun?",
+	"*giggle* Do I need to sing the song?",
+	"Oh no no, it's just... sorry if my personality is a lot right now. I'm sure it's really offputting to you.",
+	"I wouldn't say so. My parents taught me to be loyal to those I wish to be friends with. Sometimes it can be really scary and manipulative...",
+	"Oh.",
+	"...But sometimes, like now, it makes things exciting! And, if I'm being honest, that intensity is endearing in a way. Even...",
+	"*blushes* ...honestly, really cute.",
+	"Oh.",
+	"My face got hot red. What exactly did she mean by that? My mind raced to many ideas, but concluded that she has to be straight. Right?",
+	"We both dwelled on it for a second, and when we made eye contact again, Vera broke the dwellingness.", //90
+	"Um! So! I've got an idea for a game!",
+	"Yeah?",
+	"How about you tell me some riddles and see if I get them right?",
+	"I mean, I don't want to impose on you or anything...",
+	"Hera, is this something YOU would want to do?",
+	"I think so?",
+	"Well then we should give it a try. I actually would want the little competition right now! What do you say?",
+	"I thought on it for a moment, unsure, because I didn't want to set herself up for anything too harsh. However, her warm smile cut through my thoughts, and I eventually decided.",
+	"Gah, how can I say no to that? Let's do it!",
+	"...", //100
+	"....",
+	".....",
+	"Welp, I would go on, but it seems to be the end of the road for this story.",
+	"This would be the point when you (yes you!) get launched into a flurry of questions meant to engage your sense of wit and cunning in a way that you never have imagined before!",
+	"Unfortunately, the fool who programmed this game forgot what time management is, so never got around to it! The audacity.",
+	"Anywho, if you're interested in the rest of my cunning tales, the story draft will be in the code! Not to spoil or brag or anything, but we totally lived happily ever after and U-Hauled into the sunset.",
+	"Bye bye!",
+	"END" //108
 ];
 var storyCount = 1;
 var t_text_back = PIXI.Texture.from("images/dialogue_back.png");
@@ -581,6 +647,7 @@ cont_btn.mousedown = function(ev)
 		parseLogic(logic[logicCount]);
 		logicCount++;
 	}
+	bloop.play();
 }
 
 function parseLogic(logicStr)
@@ -608,8 +675,74 @@ function parseLogic(logicStr)
 
 	if (logicStr.charAt(1) == '0')
 	{
-		//TODO
+		theme_1.stop();
+		theme_2.stop();
+		theme_3.stop();
 	}
+	else if (logicStr.charAt(1) == '1')
+	{
+		theme_1.play();
+		theme_2.pause();
+		theme_3.pause();
+	}
+	else if (logicStr.charAt(1) == '2')
+	{
+		theme_1.pause();
+		theme_2.play();
+		theme_3.pause();
+	}
+	else if (logicStr.charAt(1) == '3')
+	{
+		theme_1.pause();
+		theme_2.pause();
+		theme_3.play();
+	}
+	else if (logicStr.charAt(1) == '4')
+	{
+		theme_1.pause();
+		theme_2.pause();
+		theme_3.pause();
+		spill.play();
+	}
+	else if (logicStr.charAt(1) == '5')
+	{
+		theme_1.pause();
+		theme_2.pause();
+		theme_3.pause();
+		bang.play();
+	}
+	if (logicStr.charAt(2) == '0')
+	{
+		stage.removeChild(hv_coffeeshop);
+	}
+	else if (logicStr.charAt(2) == '1')
+	{
+		stage.removeChild(main_text);
+		stage.removeChild(text_back);
+		stage.removeChild(name);
+		stage.removeChild(cont_btn);
+
+		stage.addChild(hv_coffeeshop);
+		stage.addChild(main_text);
+		stage.addChild(text_back);
+		stage.addChild(name);
+		stage.addChild(cont_btn);
+	}
+	else if (logicStr.charAt(2) == '2')
+	{
+		stage.removeChild(main_text);
+		stage.removeChild(text_back);
+		stage.removeChild(name);
+		stage.removeChild(cont_btn);
+
+		stage.addChild(hv_coffeeshop);
+		stage.addChild(main_text);
+		stage.addChild(text_back);
+		stage.addChild(name);
+		stage.addChild(cont_btn);
+	}
+
+
 }
 
 function animate() 
