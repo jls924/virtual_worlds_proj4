@@ -8,7 +8,7 @@ var menu = new PIXI.Container();
 var stage = new PIXI.Container();
 
 //Background
-var t_background = PIXI.Texture.from("images/coffeeshop.png");
+var t_background = PIXI.Texture.from("images/coffeeshopNOPPL.png");
 var background = new PIXI.Sprite(t_background);
 main.addChild(background);
 
