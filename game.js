@@ -10,7 +10,8 @@ var stage = new PIXI.Container();
 var t_hv_coffeeshop = PIXI.Texture.from("images/coffeeshopwithHeranVera.png");
 var hv_coffeeshop = new PIXI.Sprite(t_hv_coffeeshop);
 
-
+var t_coffeeshop = PIXI.Texture.from("images/coffeeshopNOPPL.png");
+var coffeeshop = new PIXI.Sprite(t_coffeeshop);
 
 let noPplBackground = ["images/coffeeshopNOPPL1.png", "images/coffeeshopNOPPL2.png", "images/coffeeshopNOPPL3.png"];
 
@@ -25,7 +26,7 @@ let radio = new PIXI.AnimatedSprite(textureArray);
 radio.loop = true;
 radio.animationSpeed = .09;
 radio.play();
-main.addChild(radio);
+menu.addChild(radio);
 
 
 //Music
@@ -172,7 +173,6 @@ play.mouseout = function(ev)
 play.mousedown = function(ev)
 {
 	main.removeChild(menu);
-	main.addChild(hv_coffeeshop);
 	main.addChild(stage);
 	theme_1.pause();
 }
@@ -383,8 +383,8 @@ var logic =
 	"v61", //40
 	"h61",
 	"o61",
-	"h61",
 	"060",
+	"h62",
 	"v62",
 	"h62",
 	"v62",
@@ -715,6 +715,7 @@ function parseLogic(logicStr)
 	if (logicStr.charAt(2) == '0')
 	{
 		stage.removeChild(hv_coffeeshop);
+		stage.removeChild(coffeeshop);
 	}
 	else if (logicStr.charAt(2) == '1')
 	{
@@ -723,7 +724,7 @@ function parseLogic(logicStr)
 		stage.removeChild(name);
 		stage.removeChild(cont_btn);
 
-		stage.addChild(hv_coffeeshop);
+		stage.addChild(coffeeshop);
 		stage.addChild(main_text);
 		stage.addChild(text_back);
 		stage.addChild(name);
