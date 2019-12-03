@@ -7,9 +7,9 @@ var main = new PIXI.Container();
 var menu = new PIXI.Container();
 var stage = new PIXI.Container();
 
-var t_hv_coffeeshop = PIXI.Texture.from("images/coffeeshop.png");
+var t_hv_coffeeshop = PIXI.Texture.from("images/coffeeshopwithHeranVera.png");
 var hv_coffeeshop = new PIXI.Sprite(t_hv_coffeeshop);
-menu.addChild(hv_coffeeshop);
+
 
 
 let noPplBackground = ["images/coffeeshopNOPPL1.png", "images/coffeeshopNOPPL2.png", "images/coffeeshopNOPPL3.png"];
@@ -172,6 +172,7 @@ play.mouseout = function(ev)
 play.mousedown = function(ev)
 {
 	main.removeChild(menu);
+	main.addChild(hv_coffeeshop);
 	main.addChild(stage);
 	theme_1.pause();
 }
